@@ -148,7 +148,7 @@ const MeasureMap = ({ children, drawType, setDrawType, onDrawComplete }) => {
     return () => {
       map.setTarget(null);
     };
-  }, [drawType, showSegments, clearPrevious, isDrawingEnabled]);
+  }, [drawType, showSegments, clearPrevious, isDrawingEnabled, onDrawComplete]);
 
   return (
     <div style={{ position: "relative" }}>
