@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Map from "./components/Map";
 import MissionModal from "./components/MissionModal";
 import PolygonModal from "./components/PolygonModal";
 import DrawControl from "./components/DrawControl";
