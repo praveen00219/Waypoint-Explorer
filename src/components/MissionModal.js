@@ -46,7 +46,10 @@ function MissionModal({ waypoints, onClose, onInsertPolygon }) {
                         <small>
                           <button
                             className="before"
-                            onClick={() => onInsertPolygon(index, "before")}
+                            onClick={() => {
+                              onInsertPolygon(index, "before");
+                              onClose();
+                            }}
                           >
                             Insert Polygon Before
                           </button>
@@ -54,7 +57,10 @@ function MissionModal({ waypoints, onClose, onInsertPolygon }) {
                         <small>
                           <button
                             className="after"
-                            onClick={() => onInsertPolygon(index, "after")}
+                            onClick={() => {
+                              onInsertPolygon(index, "after");
+                              onClose();
+                            }}
                           >
                             Insert Polygon After
                           </button>
