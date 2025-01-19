@@ -18,12 +18,14 @@ const MeasureMap = ({ children, drawType, setDrawType, onDrawComplete }) => {
   const [showSegments, setShowSegments] = useState(true);
   const [clearPrevious, setClearPrevious] = useState(false);
 
+  // TODO: Refactor this function to separate style logic for different geometries
   const styleFunction = (feature, showSegments, drawType) => {
     const styles = [];
     const geometry = feature.getGeometry();
     const type = geometry.getType();
     let point, label, line;
 
+    // TODO: Add support for additional geometry types if required
     if (!drawType || drawType === type || type === "Point") {
       styles.push(
         new Style({
@@ -47,6 +49,7 @@ const MeasureMap = ({ children, drawType, setDrawType, onDrawComplete }) => {
       }
     }
 
+    // TODO: Allow customization of segment styling via props or external config
     if (showSegments && line) {
       line.forEachSegment((a, b) => {
         const segment = new LineString([a, b]);
@@ -66,6 +69,7 @@ const MeasureMap = ({ children, drawType, setDrawType, onDrawComplete }) => {
       });
     }
 
+    // TODO: Add dynamic label styles based on geometry type or application needs
     if (label) {
       styles.push(
         new Style({
@@ -85,6 +89,7 @@ const MeasureMap = ({ children, drawType, setDrawType, onDrawComplete }) => {
   };
 
   useEffect(() => {
+    // TODO: Modularize map initialization into a separate function
     const raster = new TileLayer({
       source: new OSM(),
     });
@@ -110,6 +115,7 @@ const MeasureMap = ({ children, drawType, setDrawType, onDrawComplete }) => {
     map.addInteraction(modifyRef.current);
 
     const addDrawInteraction = () => {
+      // TODO: Avoid duplicate interaction creation by checking the existing instance
       if (drawRef.current) {
         map.removeInteraction(drawRef.current);
       }
@@ -121,6 +127,7 @@ const MeasureMap = ({ children, drawType, setDrawType, onDrawComplete }) => {
       });
 
       drawRef.current.on("drawstart", () => {
+        // TODO: Add confirmation before clearing previous drawings
         if (clearPrevious) {
           sourceRef.current.clear();
         }
@@ -132,6 +139,7 @@ const MeasureMap = ({ children, drawType, setDrawType, onDrawComplete }) => {
         const geometry = feature.getGeometry();
         const coordinates = geometry.getCoordinates();
 
+        // TODO: Validate coordinates before calling onDrawComplete
         onDrawComplete(coordinates, drawType);
 
         modifyRef.current.setActive(true);
@@ -146,13 +154,14 @@ const MeasureMap = ({ children, drawType, setDrawType, onDrawComplete }) => {
     }
 
     return () => {
+      // TODO: Cleanup interactions and listeners to avoid memory leaks
       map.setTarget(null);
     };
   }, [drawType, showSegments, clearPrevious, isDrawingEnabled, onDrawComplete]);
 
   return (
     <div style={{ position: "relative" }}>
-      {/* Control Panel */}
+      {/* TODO: Improve control panel UI with more options or responsive design */}
       <div className="control-panel">
         {children({
           enableDrawing: () => setIsDrawingEnabled(true),
@@ -186,7 +195,7 @@ const MeasureMap = ({ children, drawType, setDrawType, onDrawComplete }) => {
         </label>
       </div>
 
-      {/* Map Container */}
+      {/* TODO: Add loading indicator or fallback UI for map container */}
       <div ref={mapRef} className="map-container"></div>
     </div>
   );
